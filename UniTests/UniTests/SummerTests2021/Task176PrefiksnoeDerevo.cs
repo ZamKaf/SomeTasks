@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace UniTests.SummerTests2021
 {
@@ -9,7 +10,7 @@ namespace UniTests.SummerTests2021
         public class TrieNode
         {
             readonly Dictionary<char, TrieNode> _children = new ();
-            public bool IsEndkey { get; set; }
+            public bool IsEndKey { get; set; }
             
             public bool ContainsChild(char letter)
             {
@@ -25,81 +26,50 @@ namespace UniTests.SummerTests2021
         
         public class Trie
         {
-            TrieNode _root = new();
+            readonly TrieNode _root = new();
 
             public void Insert(string word)
             {
-                var i = 0;
                 var currentNode = _root;
-                while (true)
+                var len = word.Length;
+                for(var i = 0; i < len; i++)
                 {
-                    var child = currentNode[word[i]];
-                    if (null == child)
-                    {
+                    var letter = word[i];
+                    if (!currentNode.ContainsChild(letter))
                         currentNode[word[i]] = new TrieNode();
-                        if (i == word.Length - 1)
-                        {
-                            currentNode[word[i]].IsEndkey = true;
-                            break;
-                        }
-                        currentNode = currentNode[word[i]];
-                        i++;
-                        continue;
-                    }
-
-                    if (i == word.Length - 1)
-                    {
-                        child.IsEndkey = true;
-                        break;
-                    }
-
-                    currentNode = child;
-                    i++;
+                    currentNode = currentNode[word[i]];
                 }
+
+                currentNode.IsEndKey = true;
             }
 
             public bool Search(string word)
             {
-                var i = 0;
                 var currentNode = _root;
-                while (true)
+                foreach (var child in word.Select(letter => currentNode[letter]))
                 {
-                    var child = currentNode[word[i]];
                     if (null == child)
-                    {
                         return false;
-                    }
-
-                    if (i == word.Length - 1)
-                    {
-                        return child.IsEndkey;
-                    }
 
                     currentNode = child;
-                    i++;
                 }
+
+                return currentNode.IsEndKey;
             }
 
             public bool StartsWith(string prefix)
             {
-                var i = 0;
                 var currentNode = _root;
-                while (true)
+
+                foreach (var child in prefix.Select(letter => currentNode[letter]))
                 {
-                    var child = currentNode[prefix[i]];
                     if (null == child)
-                    {
                         return false;
-                    }
-
-                    if (i == prefix.Length - 1)
-                    {
-                        return true;
-                    }
-
+                    
                     currentNode = child;
-                    i++;
                 }
+
+                return true;
             }
         }
         
