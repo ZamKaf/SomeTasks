@@ -10,7 +10,7 @@ namespace UniTests
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var test = new Task179ColorHouses();
+            var test = new Task181IsomorphicStrings();
             test.Run();
         }
     }
