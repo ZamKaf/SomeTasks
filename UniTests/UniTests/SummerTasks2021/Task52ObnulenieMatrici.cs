@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UniTests.SummerTests2021
+namespace UniTests.SummerTasks2021
 {
     public class Task52ObnulenieMatrici : ITest
     {

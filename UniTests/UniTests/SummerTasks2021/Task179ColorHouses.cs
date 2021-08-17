@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace UniTests.SummerTests2021
+namespace UniTests.SummerTasks2021
 {
     public class Task179ColorHouses : ITest
     {
