@@ -11,7 +11,7 @@ namespace UniTests
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var test = new Task4IndexOfElemInSortedShiftedArray();
+            var test = new Task5CanStringBePalindrome();
             test.Run();
         }
     }
