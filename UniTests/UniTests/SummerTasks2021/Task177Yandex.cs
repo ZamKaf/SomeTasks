@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task177Yandex : ITest
+    public class Task177Yandex : ITask
     {
         public record Phrase
         {

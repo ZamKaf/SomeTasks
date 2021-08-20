@@ -2,7 +2,7 @@
 
 namespace UniTests
 {
-    public interface ITest
+    public interface ITask
     {
         public void Run();
     }

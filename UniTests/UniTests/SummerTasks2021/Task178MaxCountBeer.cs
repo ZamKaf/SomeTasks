@@ -2,7 +2,7 @@
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task178MaxCountBeer :ITest 
+    public class Task178MaxCountBeer :ITask 
     {
         public int MaxBeerBottles(int n, int k)
         {

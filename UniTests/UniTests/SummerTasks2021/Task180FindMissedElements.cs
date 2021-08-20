@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task180FindMissedElements : ITest
+    public class Task180FindMissedElements : ITask
     {
         public List<int> GetMissingNumbers(int[] arr)
         {

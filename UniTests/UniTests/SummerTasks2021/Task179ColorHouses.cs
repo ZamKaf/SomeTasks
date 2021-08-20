@@ -2,7 +2,7 @@
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task179ColorHouses : ITest
+    public class Task179ColorHouses : ITask
     {
         public int GetMinCost(int[][] costs)
         {

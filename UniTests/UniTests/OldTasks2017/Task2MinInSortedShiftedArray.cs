@@ -2,7 +2,7 @@
 
 namespace UniTests.OldTasks2017
 {
-    public class Task2MinInSortedShiftedArray : ITest
+    public class Task2MinInSortedShiftedArray : ITask
     {
         public int GetElem(int[] array)
         {

@@ -2,7 +2,7 @@
 
 namespace UniTests.OldTasks2017
 {
-    public class Task4IndexOfElemInSortedShiftedArray : ITest
+    public class Task4IndexOfElemInSortedShiftedArray : ITask
     {
         public int GetIndex(int[] mas, int elem)
         {

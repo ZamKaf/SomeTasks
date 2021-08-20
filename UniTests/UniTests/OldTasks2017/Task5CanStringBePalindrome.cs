@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UniTests.OldTasks2017
 {
-    public class Task5CanStringBePalindrome : ITest
+    public class Task5CanStringBePalindrome : ITask
     {
         public bool CheckStringPalindrome(string str)
         {

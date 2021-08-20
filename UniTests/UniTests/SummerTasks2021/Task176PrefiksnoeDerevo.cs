@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task176PrefiksnoeDerevo: ITest
+    public class Task176PrefiksnoeDerevo: ITask
     {
         public class TrieNode
         {

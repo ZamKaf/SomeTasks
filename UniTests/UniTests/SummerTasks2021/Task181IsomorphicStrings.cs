@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UniTests.SummerTasks2021
 {
-    public class Task181IsomorphicStrings :ITest
+    public class Task181IsomorphicStrings :ITask
     {
         public bool IsIsomorphicStrings(string s, string t)
         {
