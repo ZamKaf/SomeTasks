@@ -23,7 +23,7 @@ namespace YandexContest.Algorithms2.DivB
                     break;
                 case 6:
                     result = 0;
-                    break;
+                    break; 
                 case 7:
                     result = 1;
                     break;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace YandexContest
@@ -8,37 +9,96 @@ namespace YandexContest
     {
         static void Main(string[] args)
         {
-            var a = int.Parse(Console.ReadLine());
-            var b = int.Parse(Console.ReadLine());
-            var c = int.Parse(Console.ReadLine());
-            var d = int.Parse(Console.ReadLine());
-            if (a == 0 && b == 0)
+            const string inFileName = "input.txt";
+            const long places = 450;
+            var dictionary = new Dictionary<string, Numbers>();
+            long summ = 0;
+            foreach (var line in File.ReadLines(inFileName))
             {
-                Console.WriteLine("INF");
-                return;
+                var index = line.LastIndexOf(' ');
+                var count = long.Parse(line.Substring(index + 1));
+                var name = line.Substring(0, index);
+                dictionary[name] = new Numbers { Name = name, TotalCount = count };
+                summ += count;
             }
 
-            if (a == 0 && b != 0)
+            var baseNumber = summ / places;
+
+            var tail = places;
+            foreach (var pair in dictionary)
             {
-                Console.WriteLine("NO");
-                return;
-            }
-            
-            if (b % a != 0)
-            {
-                Console.WriteLine("NO");
-                return;
+                if (baseNumber != 0)
+                {
+                    pair.Value.Result = pair.Value.TotalCount / baseNumber;
+                    pair.Value.Remainder = pair.Value.TotalCount % baseNumber;
+                }
+                else
+                {
+                    pair.Value.Result = 0;
+                    pair.Value.Remainder = pair.Value.TotalCount;
+                }
+
+                tail -= pair.Value.Result;
             }
 
-            var x = b / a;
-            
-            if (x * c == d)
+            if (tail != 0)
             {
-                Console.WriteLine("NO");
-                return;
+                var numbersList = new List<Numbers>(dictionary.Values);
+                numbersList.Sort((numbers, numbers1) =>
+                {
+                    if (numbers.Remainder > numbers1.Remainder)
+                        return -1;
+                    if (numbers.Remainder < numbers1.Remainder)
+                        return 1;
+                    
+                    if (numbers.TotalCount > numbers1.TotalCount)
+                        return -1;
+                    if (numbers.TotalCount < numbers1.TotalCount)
+                        return 1;
+                    return 0;
+                });
+                var index = 0;
+                while (tail != 0)
+                {
+                    dictionary[numbersList[index].Name].Result++;
+                    index = (index + 1) % dictionary.Count;
+                    tail--;
+                }
             }
+            Console.WriteLine(string.Join("\n", dictionary.Select(n => $"{n.Key} {n.Value.Result}")));
+        }
+    }
 
-            Console.WriteLine(-x);
+    public class Numbers
+    {
+        public string Name { get; set; }
+        public long TotalCount { get; set; }
+        public long Result { get; set; }
+        public long Remainder { get; set; }
+    }
+    
+    class NumbersReader
+    {
+        public int ReadInt32()
+        {
+            return int.Parse(Console.ReadLine());
+        }
+
+        public long ReadInt64()
+        {
+            return long.Parse(Console.ReadLine());
+        }
+
+        public int[] ReadInt32Array()
+        {
+            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
+                .Select(i => int.Parse(i)).ToArray();
+        }
+        
+        public long[] ReadInt64Array()
+        {
+            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
+                .Select(i => long.Parse(i)).ToArray();
         }
     }
 }
