@@ -17,13 +17,9 @@ namespace YandexContest.Algorithms2.DivB3
                     .Select(i => int.Parse(i));
                 var answer = Console.ReadLine() == "YES";
                 if (answer)
-                {
                     result.IntersectWith(numbers);
-                }
                 else
-                {
                     result.ExceptWith(numbers);
-                }
             }
             Console.WriteLine(string.Join(" ", result));
         }

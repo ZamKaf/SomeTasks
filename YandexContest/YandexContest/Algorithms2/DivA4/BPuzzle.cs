@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace YandexContest
+namespace YandexContest.Algorithms2.DivA4
 {
-    class Program
+    public class BPuzzle : IRunnable
     {
-        static void Main(string[] args)
+        public void Run()
         {
             var reader = new NumbersReader();
             var nums = reader.ReadInt32Array();
@@ -41,34 +41,9 @@ namespace YandexContest
             var sb = new StringBuilder();
             foreach (var letter in letters)
             {
-                sb.Append(Enumerable.Repeat(letter.Key, letter.Value).ToArray());
+                sb.Append(Enumerable.Repeat(letter.Key, letter.Value));
             }
             Console.WriteLine(sb.ToString());
-        }
-    }
-
-    class NumbersReader
-    {
-        public int ReadInt32()
-        {
-            return int.Parse(Console.ReadLine());
-        }
-
-        public long ReadInt64()
-        {
-            return long.Parse(Console.ReadLine());
-        }
-
-        public int[] ReadInt32Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => int.Parse(i)).ToArray();
-        }
-
-        public long[] ReadInt64Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => long.Parse(i)).ToArray();
         }
     }
 }
