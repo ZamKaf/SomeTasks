@@ -1,49 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
 namespace YandexContest
 {
     class Program
     {
         static void Main(string[] args)
         {
+            var str = Console.ReadLine();
+            var rle = ShortedString(str);
+            var maxCharCount = new Dictionary<char, long>();
+            foreach (var pair in rle)
+            {
+                if (!maxCharCount.ContainsKey(pair.Char))
+                    maxCharCount[pair.Char] = pair.Count;
+                else
+                    maxCharCount[pair.Char] = Math.Max(maxCharCount[pair.Char], pair.Count);
+            }
+
+            var resultCount = maxCharCount.Values.Sum();
+            var pairs = new Dictionary<string, Dictionary<long, long>>();
+            for (var i = 0; i < rle.Count - 1; i++)
+            {
+                var first = rle[i];
+                var second = rle[i + 1];
+                var pair = $"{first.Char}{second.Char}";
+                if (!pairs.ContainsKey(pair))
+                {
+                    pairs[pair] = new Dictionary<long, long> { { first.Count, second.Count } };
+                    continue;
+                }
+
+                var currentPair = pairs[pair];
+                currentPair[first.Count] = currentPair.ContainsKey(first.Count)
+                    ? Math.Max(currentPair[first.Count], second.Count)
+                    : second.Count;
+            }
+
+            foreach (var pair in pairs.Values)
+            {
+                var sortedKeys = pair.Keys.ToList();
+                sortedKeys.Sort();
+                sortedKeys.Reverse();
+
+                long maxSecond = 0;
+                foreach (var first in sortedKeys)
+                {
+                    var second = pair[first];
+                    if (second <= maxSecond)
+                        continue;
+                    resultCount += (second - maxSecond) * first;
+                    maxSecond = second;
+                }
+            }
+
+            Console.WriteLine(resultCount);
+        }
+
+        static List<CharCount> ShortedString(string str)
+        {
+            var res = new List<CharCount> { new CharCount('#', 0) };
+            foreach (var c in str)
+            {
+                var last = res[res.Count - 1];
+                if (last.Char == c)
+                    last.Count++;
+                else
+                    res.Add(new CharCount(c, 1));
+            }
+
+            return res.GetRange(1, res.Count - 1);
+        }
+
+
+        class CharCount
+        {
+            public CharCount(char c, long count)
+            {
+                Char = c;
+                Count = count;
+            }
+            public char Char { get; set; }
+            public long Count { get; set; }
+
+            public override string ToString()
+            {
+                return $"{Char}{Count}";
+            }
+
+            public void Deconstruct(out char c, out long count)
+            {
+                c = Char;
+                count = Count;
+            }
+        }
+
+
+        static void ShowPrefix()
+        {
             var reader = new NumbersReader();
-            var nums = reader.ReadInt32Array();
-            var tableSize = nums[0];
-            var wordsCount = nums[1];
-            var letters = new Dictionary<char, int>();
-            for (var i = 0; i < tableSize; i++)
+            var array = reader.ReadInt64Array();
+            var arrayLen = array.Length;
+            var prefix = new long[arrayLen + 1];
+            for (var i = 1; i < arrayLen + 1; i++)
             {
-                var word = Console.ReadLine();
-                foreach (var c in word)
-                {
-                    if (letters.ContainsKey(c))
-                        letters[c]++;
-                    else
-                        letters[c] = 1;
-                }
+                prefix[i] = prefix[i - 1] + array[i - 1];
             }
 
-            for (var i = 0; i < wordsCount; i++)
-            {
-                var word = Console.ReadLine();
-                foreach (var c in word)
-                {
-                    if (letters.ContainsKey(c))
-                        letters[c]--;
-                    else
-                        Console.WriteLine("ERROR");
-                }
-            }
-
-            var sb = new StringBuilder();
-            foreach (var letter in letters)
-            {
-                sb.Append(Enumerable.Repeat(letter.Key, letter.Value).ToArray());
-            }
-            Console.WriteLine(sb.ToString());
+            Console.WriteLine(string.Join(" ", prefix));
         }
     }
 
