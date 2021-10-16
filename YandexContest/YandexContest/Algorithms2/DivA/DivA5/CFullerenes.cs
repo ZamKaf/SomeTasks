@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Xml.Schema;
 
 namespace YandexContest.Algorithms2.DivA.DivA5
@@ -7,40 +9,105 @@ namespace YandexContest.Algorithms2.DivA.DivA5
     {
         public void Run()
         {
+            const string file = "input.txt";
+            var data = File.ReadAllText(file).Split("\n");
+            var count = int.Parse(data[0]);
+            var tubes = data[1].Split(" ").Select(long.Parse).ToArray();
+            
+            /*
             var reader = new NumbersReader();
             var count = reader.ReadInt32();
             var tubes = reader.ReadInt64Array();
+            */
             if (count < 3)
             {
                 Console.WriteLine(0);
                 return;
             }
-            var partiesCount = 0;
-            var leftPointer = 0;
-            var midPointer = 1;
-            var rightPointer = 2;
-            while (leftPointer < count-2 && midPointer < count -1 && rightPointer < count)
+            Console.WriteLine($"{count} {tubes.Length}");
+
+            long partiesCount = 0;
+            for (var aPointer = 0; aPointer < count - 2; aPointer++)
             {
-                var a = tubes[leftPointer];
-                var b = tubes[midPointer];
-                var c = tubes[rightPointer];
-                if (c >= a + b)
+                var a = tubes[aPointer];
+                var bPointer = aPointer + 1;
+                
+                var cPointerMax = bPointer + 1;
+                var cPointerMin = bPointer + 1;
+                var cPointerMaxFound = false;
+                var cPointerMinFound = false;
+                while (true)
                 {
-                    if (midPointer < rightPointer - 1)
+                    var b = tubes[bPointer];
+                    var cMin = tubes[cPointerMin];
+                    var cMax = tubes[cPointerMax];
+                    
+                    // Ищем нижнюю границу подходящего отрезка, определяется "тупоугольностью".
+                    if (!cPointerMinFound)
                     {
-                        midPointer++;
-                        rightPointer = Math.Max(midPointer + 1, rightPointer);
+                        if (!IsObtuseTriangle(a, b, cMin))
+                        {
+                            if (cPointerMin == count - 1)
+                                break;
+                            
+                            cPointerMin++;
+                        }
+                        else
+                        {
+                            cPointerMinFound = true;
+                        }
                     }
-                    else
+
+                    // Ищем верхнюю границу подходящего отрезка, определяется неравенством треугольника.
+                    if (!cPointerMaxFound)
                     {
-                        leftPointer++;
-                        midPointer = Math.Max(leftPointer+1, midPointer);
-                        rightPointer = Math.Max(midPointer + 1, rightPointer);
+                        if (cMax < a + b)
+                        {
+                            if (cPointerMax == count - 1)
+                                cPointerMaxFound = true;
+                            else
+                                cPointerMax++;
+                        }
+                        else
+                        {
+                            if (cPointerMax - 1 == bPointer)
+                            {
+                                if (bPointer == count - 2)
+                                    break;
+                                bPointer++;
+                                cPointerMin = Math.Max(cPointerMin, bPointer + 1);
+                                cPointerMax = Math.Max(cPointerMax, bPointer + 1);
+                                cPointerMaxFound = false;
+                                cPointerMinFound = false;
+                            }
+                            else
+                            {
+                                cPointerMax--;
+                                cPointerMaxFound = true;   
+                            }
+                        }
                     }
-                    continue;
+
+                    if (cPointerMaxFound && cPointerMinFound)
+                    {
+                        if (cPointerMax >= cPointerMin)
+                            partiesCount += cPointerMax - cPointerMin + 1;
+                        if (bPointer == count - 2)
+                            break;
+                        bPointer++;
+                        cPointerMin = Math.Max(cPointerMin, bPointer + 1);
+                        cPointerMax = Math.Max(cPointerMax, bPointer + 1);
+                        cPointerMaxFound = false;
+                        cPointerMinFound = false;
+                    }
                 }
             }
+            Console.WriteLine(partiesCount);
         }
 
+        static bool IsObtuseTriangle(long a, long b, long c) // Min mid max side.
+        {
+            return a * a < c * c -  b * b;
+        }
     }
 }
