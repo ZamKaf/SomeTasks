@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using YandexContest.Algorithms2.DivB.DivB5;
 
 namespace YandexContest
 {
