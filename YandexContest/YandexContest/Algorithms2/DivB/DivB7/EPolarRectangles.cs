@@ -1,29 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Globalization;
-namespace YandexContest
+
+namespace YandexContest.Algorithms2.DivB.DivB7
 {
-    class Program
+    public class EPolarRectangles : IRunnable
     {
-        static void Main(string[] args)
+        public void Run()
         {
-            const string inFile = "input.txt";
-            const string outFile = "output.txt";
             var reader = new NumbersReader();
             var count = reader.ReadInt32();
-
-            //var data = File.ReadAllLines(outFile);
-            //var count = int.Parse(data[0]);
             double insudeRarius = 0;
             double outsideRadius = double.MaxValue;
             var points = new List<Point>();
-            for (var i = 1; i <= count; i++)
+            for (var i = 0; i < count; i++)
             {
-                //var line = data[i].Replace(".", ",");
-                //var nums = line.Split(" ").Select(double.Parse).ToArray();
                 var nums = reader.ReadDoubleArray();
                 insudeRarius = Math.Max(insudeRarius, nums[0]);
                 outsideRadius = Math.Min(outsideRadius, nums[1]);
@@ -33,25 +23,18 @@ namespace YandexContest
                 {
                     Value = close,
                     Type = -1,
-                    SectionIndex = i,
+                    SectionIndex = 1,
                 });
                 points.Add(new Point
                 {
                     Value = open,
                     Type = 1,
-                    SectionIndex = i,
+                    SectionIndex = 1,
                 });
             }
 
             var ringArea = outsideRadius * outsideRadius - insudeRarius * insudeRarius; // пи пропущено, т.к. сократится позднее.
-            if (ringArea <= 0)
-            {
-                Console.WriteLine(0);
-                //File.WriteAllText(outFile,$"0");
-                return;
-            }
-            points.Sort(Comparison);
-
+            
             var opened = new HashSet<int>();
             var openedCount = 0;
             double area = 0;
@@ -114,17 +97,7 @@ namespace YandexContest
                 if (opened.Count == 0)
                     break;
             }
-
-            var res = $"{area:F10}".Replace(",", ".");
-            Console.WriteLine(res);
-            //File.WriteAllText(outFile, res);
-        }
-
-        static int Comparison(Point x, Point y)
-        {
-            return x.Value.Equals(y.Value)
-                ? x.Type.CompareTo(y.Type)
-                : x.Value.CompareTo(y.Value);
+            Console.WriteLine(area);
         }
 
         class Point
@@ -132,43 +105,6 @@ namespace YandexContest
             public double Value { get; set; }
             public int Type { get; set; }
             public int SectionIndex { get; set; }
-            public override string ToString()
-            {
-                var type = Type == 1
-                    ? "Begin"
-                    : "End";
-                return $"{type} {Value} ({SectionIndex})";
-            }
-        }
-    }
-
-    class NumbersReader
-    {
-        public int ReadInt32()
-        {
-            return int.Parse(Console.ReadLine());
-        }
-
-        public long ReadInt64()
-        {
-            return long.Parse(Console.ReadLine());
-        }
-
-        public int[] ReadInt32Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => int.Parse(i)).ToArray();
-        }
-
-        public long[] ReadInt64Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => long.Parse(i)).ToArray();
-        }
-        public double[] ReadDoubleArray()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(d => double.Parse(d, new NumberFormatInfo())).ToArray();
         }
     }
 }
