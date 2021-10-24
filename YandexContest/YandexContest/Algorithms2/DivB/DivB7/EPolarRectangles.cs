@@ -7,13 +7,20 @@ namespace YandexContest.Algorithms2.DivB.DivB7
     {
         public void Run()
         {
+            const string inFile = "input.txt";
+            const string outFile = "output.txt";
             var reader = new NumbersReader();
             var count = reader.ReadInt32();
+
+            //var data = File.ReadAllLines(outFile);
+            //var count = int.Parse(data[0]);
             double insudeRarius = 0;
             double outsideRadius = double.MaxValue;
             var points = new List<Point>();
-            for (var i = 0; i < count; i++)
+            for (var i = 1; i <= count; i++)
             {
+                //var line = data[i].Replace(".", ",");
+                //var nums = line.Split(" ").Select(double.Parse).ToArray();
                 var nums = reader.ReadDoubleArray();
                 insudeRarius = Math.Max(insudeRarius, nums[0]);
                 outsideRadius = Math.Min(outsideRadius, nums[1]);
@@ -23,18 +30,25 @@ namespace YandexContest.Algorithms2.DivB.DivB7
                 {
                     Value = close,
                     Type = -1,
-                    SectionIndex = 1,
+                    SectionIndex = i,
                 });
                 points.Add(new Point
                 {
                     Value = open,
                     Type = 1,
-                    SectionIndex = 1,
+                    SectionIndex = i,
                 });
             }
 
             var ringArea = outsideRadius * outsideRadius - insudeRarius * insudeRarius; // пи пропущено, т.к. сократится позднее.
-            
+            if (ringArea <= 0)
+            {
+                Console.WriteLine(0);
+                //File.WriteAllText(outFile,$"0");
+                return;
+            }
+            points.Sort(Comparison);
+
             var opened = new HashSet<int>();
             var openedCount = 0;
             double area = 0;
@@ -97,7 +111,17 @@ namespace YandexContest.Algorithms2.DivB.DivB7
                 if (opened.Count == 0)
                     break;
             }
-            Console.WriteLine(area);
+
+            var res = $"{area:F10}".Replace(",", ".");
+            Console.WriteLine(res);
+            //File.WriteAllText(outFile, res);
+        }
+
+        static int Comparison(Point x, Point y)
+        {
+            return x.Value.Equals(y.Value)
+                ? x.Type.CompareTo(y.Type)
+                : x.Value.CompareTo(y.Value);
         }
 
         class Point
@@ -105,6 +129,13 @@ namespace YandexContest.Algorithms2.DivB.DivB7
             public double Value { get; set; }
             public int Type { get; set; }
             public int SectionIndex { get; set; }
+            public override string ToString()
+            {
+                var type = Type == 1
+                    ? "Begin"
+                    : "End";
+                return $"{type} {Value} ({SectionIndex})";
+            }
         }
     }
 }

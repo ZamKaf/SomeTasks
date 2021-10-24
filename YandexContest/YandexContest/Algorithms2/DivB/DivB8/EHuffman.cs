@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Globalization;
 
-namespace YandexContest
+namespace YandexContest.Algorithms2.DivB.DivB8
 {
-    class Program
+    public class EHuffman : IRunnable
     {
-        static void Main(string[] args)
+        public void Run()
         {
             var count = int.Parse(Console.ReadLine());
             var answers = new List<List<string>>();
@@ -92,36 +90,6 @@ namespace YandexContest
                 Codes(node.Right, codes);
                 codes.RemoveAt(codes.Count - 1);
             }
-        }
-    }
-
-    class NumbersReader
-    {
-        public int ReadInt32()
-        {
-            return int.Parse(Console.ReadLine());
-        }
-
-        public long ReadInt64()
-        {
-            return long.Parse(Console.ReadLine());
-        }
-
-        public int[] ReadInt32Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => int.Parse(i)).ToArray();
-        }
-
-        public long[] ReadInt64Array()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(i => long.Parse(i)).ToArray();
-        }
-        public double[] ReadDoubleArray()
-        {
-            return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
-                .Select(d => double.Parse(d, new NumberFormatInfo())).ToArray();
         }
     }
 }
