@@ -1,99 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Globalization;
+using YandexContest.Algorithms2.DivA.DivA1;
 
 namespace YandexContest
 {
     class Program
     {
+        delegate void Message();
+ 
         static void Main(string[] args)
         {
-            var count = int.Parse(Console.ReadLine());
-            var answers = new List<List<string>>();
-            for (var i = 0; i < count; i++)
-            {
-                var tree = new HuffmanTree(Console.ReadLine());
-                answers.Add(tree.Codes());
-            }
-
-            foreach (var answer in answers)
-            {
-                Console.WriteLine(answer.Count);
-                answer.ForEach(Console.WriteLine);
-            }
+            Message mes1 = Hello;
+            Message mes2 = HowAreYou;
+            Message mes3 = mes1 + mes2; // объединяем делегаты
+            mes1 += HowAreYou;
+            mes3 += Hello;
+            mes3(); // вызываются все методы из mes1 и mes2
+         
+            Console.Read();
         }
-
-        class HuffmanNode
+        private static void Hello()
         {
-            public int Code { get; set; }
-            public HuffmanNode Parent { get; set; }
-            public HuffmanNode Left { get; set; }
-            public HuffmanNode Right { get; set; }
-            public NodeType Type { get; set; }
+            Console.WriteLine("Hello");
         }
-
-        enum NodeType
+        private static void HowAreYou()
         {
-            Root,
-            Left,
-            Right,
-        }
-
-        class HuffmanTree
-        {
-            readonly HuffmanNode _root = new HuffmanNode { Type = NodeType.Root };
-
-            public HuffmanTree(string input)
-            {
-                var node = _root;
-                foreach (var letter in input)
-                {
-                    if (letter == 'D')
-                    {
-                        node.Left = new HuffmanNode { Type = NodeType.Left, Parent = node};
-                        node = node.Left;
-                    }
-                    else
-                    {
-                        while (node.Type == NodeType.Right)
-                        {
-                            node = node.Parent;
-                        }
-
-                        node = node.Parent;
-                        node.Right = new HuffmanNode { Type = NodeType.Right, Parent = node};
-                        node = node.Right;
-                    }
-                }
-            }
-
-            List<string> _codes;
-            public List<string> Codes()
-            {
-                _codes = new List<string>();
-                Codes(_root, new List<char>());
-                return _codes;
-            }
-
-            void Codes(HuffmanNode node, List<char> codes)
-            {
-                if (null == node.Left)
-                {
-                    _codes.Add(string.Concat(codes));
-                    return;
-                }
-
-                codes.Add('0');
-                Codes(node.Left, codes);
-                codes.RemoveAt(codes.Count - 1);
-                codes.Add('1');
-                Codes(node.Right, codes);
-                codes.RemoveAt(codes.Count - 1);
-            }
+            Console.WriteLine("How are you?");
         }
     }
+
 
     class NumbersReader
     {
@@ -118,6 +57,7 @@ namespace YandexContest
             return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
                 .Select(i => long.Parse(i)).ToArray();
         }
+
         public double[] ReadDoubleArray()
         {
             return Console.ReadLine().Trim(' ').Split(' ').Where(s => s != "")
