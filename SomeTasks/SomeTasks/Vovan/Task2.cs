@@ -21,6 +21,7 @@ namespace SomeTasks.Vovan
             
             var negativeSqr = list.Where(i => i < 0).Select(s => s* s).Reverse().Append(int.MaxValue).ToList();
             var positiveSqr = list.Where(i => i >= 0).Select(s => s* s).Append(int.MaxValue).ToList();
+            
             var result = new List<int>(totalCount);
             var negativeIndex = 0;
             var positiveIndex = 0;

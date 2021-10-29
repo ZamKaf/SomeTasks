@@ -251,19 +251,6 @@ namespace YandexContest.Algorithms2.DivA.DivA5
             }
 
             return;
-            if (leftPointer == rightPointer)
-            {
-                Console.WriteLine(1);
-                //Console.WriteLine(candies[leftPointer]);
-                Console.WriteLine(leftData);
-            }
-            else
-            {
-                Console.WriteLine(2);
-                //Console.WriteLine($"{candies[leftPointer]} {candies[rightPointer]}");
-                Console.WriteLine($"{leftData} {rightData}");
-            }
-            //Console.WriteLine(sw.Elapsed);
         }
     }
 

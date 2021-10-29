@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using SomeTasks.Vovan;
 
 namespace SomeTasks
@@ -7,8 +10,6 @@ namespace SomeTasks
     {
         static void Main(string[] args)
         {
-            var t = new Task2();
-            t.Run();
         }
     }
 }

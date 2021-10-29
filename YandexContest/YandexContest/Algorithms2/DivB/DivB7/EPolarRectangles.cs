@@ -7,8 +7,8 @@ namespace YandexContest.Algorithms2.DivB.DivB7
     {
         public void Run()
         {
-            const string inFile = "input.txt";
-            const string outFile = "output.txt";
+            //const string inFile = "input.txt";
+            //const string outFile = "output.txt";
             var reader = new NumbersReader();
             var count = reader.ReadInt32();
 

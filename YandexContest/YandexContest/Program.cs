@@ -1,40 +1,44 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Globalization;
-using YandexContest.Algorithms2.DivA.DivA1;
+using System.Text;
 
 namespace YandexContest
 {
-    class Program
+    internal class Program
     {
-        delegate void Message();
- 
-        static void Main(string[] args)
+        static void Main()
         {
-            Message mes1 = Hello;
-            Message mes2 = HowAreYou;
-            Message mes3 = mes1 + mes2; // объединяем делегаты
-            mes1 += HowAreYou;
-            mes3 += Hello;
-            mes3(); // вызываются все методы из mes1 и mes2
-         
-            Console.Read();
-        }
-        private static void Hello()
-        {
-            Console.WriteLine("Hello");
-        }
-        private static void HowAreYou()
-        {
-            Console.WriteLine("How are you?");
+            var t1 = new Test1();
+            var t2 = new Test1();
+            t1.Incr(t2);
+            t1.Incr(t2);
+            t1.Incr(t2);
+            t1.Incr(t2);
+            t1.Incr(t2);
+            t1.Incr(t2);
+            Console.WriteLine(t2.GetD());
         }
     }
 
+    class Test1
+    {
+        int data;
 
-    class NumbersReader
+        public void Incr(Test1 t)
+        {
+            t.data++;
+        }
+
+        public int GetD()
+        {
+            return data;
+        }
+    }
+
+    internal class NumbersReader
     {
         public int ReadInt32()
         {

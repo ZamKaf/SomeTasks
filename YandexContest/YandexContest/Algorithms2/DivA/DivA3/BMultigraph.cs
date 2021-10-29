@@ -11,7 +11,6 @@ namespace YandexContest.Algorithms2.DivA.DivA3
             var nums = reader.ReadInt32Array();
             var vertexCount = nums[0];
             var edgeCount = nums[1];
-            var vertexResultCount = 0;
             var vertices = new HashSet<ValueTuple<int, int>>();
             for (var i = 0; i < edgeCount; i++)
             {

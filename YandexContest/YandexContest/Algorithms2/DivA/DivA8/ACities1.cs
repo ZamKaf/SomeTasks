@@ -13,7 +13,7 @@ namespace YandexContest.Algorithms2.DivA.DivA8
 
             var tree = new GenTree();
             var data = File.ReadAllLines(inFile);
-            var count = int.Parse(data[0]);
+            var count = long.Parse(data[0]);
             for (var i = 1; i < count; i++)
             {
                 var pair = data[i].Split(' ').Where(s => s != "").Select(int.Parse).ToArray();

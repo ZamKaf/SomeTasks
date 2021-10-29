@@ -33,10 +33,7 @@ namespace YandexContest.Algorithms2.DivB.DivB7
                 return;
             }
 
-            var currentLinesCount = 0;
-            var nextLinesCount = 0;
             var answers = new List<string>();
-            var flagFirst = true;
             long covered = 0;
             var maxCurrentSectionEnd = list[0];
             foreach (var point in list)
