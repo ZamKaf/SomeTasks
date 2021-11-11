@@ -1,49 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Globalization;
-using System.Text;
 
+/// В контекстах mono 5.2.0
 namespace YandexContest
 {
-    internal class Program
+    class Program
     {
-        static void Main()
+        const string Freeze = "freeze";
+        const string Heat = "heat";
+        const string Auto = "auto";
+        const string Fan = "fan";
+        
+        public static void Main()
         {
-            var t1 = new Test1();
-            var t2 = new Test1();
-            t1.Incr(t2);
-            t1.Incr(t2);
-            t1.Incr(t2);
-            t1.Incr(t2);
-            t1.Incr(t2);
-            t1.Incr(t2);
-            Console.WriteLine(t2.GetD());
+            var reader = new NumbersReader();
+            var nums = reader.ReadInt32Array();
+            var troom = nums[0];
+            var tcond = nums[1];
+            var mode = Console.ReadLine();
+
+            if (troom == tcond || mode == Auto)
+                Console.WriteLine(tcond);
+            else if (mode == Fan)
+                Console.WriteLine(troom);
+            else if ((troom > tcond && mode == Freeze) || 
+                     (troom < tcond && mode == Heat))
+                Console.WriteLine(tcond);
+            else
+                Console.WriteLine(troom);
         }
     }
 
-    class Test1
-    {
-        int data;
-
-        public void Incr(Test1 t)
-        {
-            t.data++;
-        }
-
-        public int GetD()
-        {
-            return data;
-        }
-    }
-
-    internal class NumbersReader
+      class NumbersReader
     {
         public int ReadInt32()
         {
             return int.Parse(Console.ReadLine());
         }
+        
 
         public long ReadInt64()
         {
